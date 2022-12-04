@@ -12,9 +12,9 @@ app.get("/api/render", (req, res) => {
 });
 
 app.post("/upload", function (req, res, next) {
-  // console.log(req.files);
-  const file = req.files.photo;
-  file.mv("uploads/3.pdf", function (err, result) {
+  //   console.log(req.files);
+  const file = req.files.pdf;
+  file.mv("uploads/3.pdf", function (err, result, next) {
     if (err) {
       throw err;
     } else {
