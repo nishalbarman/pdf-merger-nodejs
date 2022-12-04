@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "pdf-merger-js": "^4.1.2"
+  },
+  "name": "pdf-merger",
+  "version": "1.0.0",
+  "description": "This is a simple pdf merger api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nishal",
+  "license": "ISC",
+  "engines": {
+    "node": "18.12.1"
+  }
+}
