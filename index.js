@@ -1,31 +1,60 @@
 const express = require("express");
 const cors = require("cors");
 const pdfMerge = require("pdf-merger-js");
-const fileUpload = require("express-fileupload");
+const fs = require("fs");
+const multer = require("multer");
+const path = require("node:path");
+const glob = require("glob");
 const app = express();
-// app.use(cors);
-app.use(fileUpload());
-const port = process.env.PORT || 3000;
 
-app.get("/api/render", (req, res) => {
-  res.send("Hello World");
+const port = process.env.PORT || 3000;
+let mergedPdfBuffer;
+
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, "_" + file.originalname);
+  },
 });
 
-app.post("/upload", function (req, res, next) {
-  //   console.log(req.files);
-  const file = req.files.pdf;
-  file.mv("uploads/3.pdf", function (err, result, next) {
-    if (err) {
-      throw err;
-    } else {
+let upload = multer({ storage: storage });
+
+app.get("/", (req, res) => {
+  res.send("Server is working.");
+});
+
+app.post("/upload", upload.array("pdf", 2), (req, res) => {
+  const fileinfo = req.files;
+  glob("uploads/*.pdf", function (er, files) {
+    (async () => {
+      let merger = new pdfMerge();
+      await merger.add(files[0]);
+      await merger.add(files[1]); // await merger.save("merged.pdf"); //save under given name and reset the internal document
+      mergedPdfBuffer = await merger.saveAsBuffer(); // fs.writeFileSync("merged.pdf", mergedPdfBuffer);
+
+      files.forEach(function (file) {
+        fs.unlink(file, function (err) {
+          if (err && err.code == "ENOENT") {
+            console.info(err);
+          } else if (err) {
+            console.error("Error occurred while trying to remove file");
+          } else {
+            console.info(`removed`);
+          }
+        });
+      });
+
       res.send({
         success: true,
-        message: "File Uploaded",
+        message: "PDF merged successfully",
+        pdf: mergedPdfBuffer,
       });
-    }
+    })();
   });
 });
 
 app.listen(port, () => {
-  console.log("I am live again");
+  console.log("Server is listening on: " + port);
 });
