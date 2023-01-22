@@ -2,20 +2,27 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "glob": "^8.0.3",
+    "fs": "^0.0.1-security",
+    "glob": "^8.1.0",
     "multer": "^1.4.5-lts.1",
-    "pdf-merger-js": "^4.1.2"
+    "path": "^0.12.7",
+    "pdf-merger-js": "^4.2.0"
   },
-  "name": "pdf-merger",
+  "name": "pdf-merger-nodejs",
   "version": "1.0.0",
-  "description": "This is a simple pdf merger api",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Nishal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishalbarman/pdf-merger-nodejs.git"
+  },
+  "author": "",
   "license": "ISC",
-  "engines": {
-    "node": "18.12.1"
-  }
+  "bugs": {
+    "url": "https://github.com/nishalbarman/pdf-merger-nodejs/issues"
+  },
+  "homepage": "https://github.com/nishalbarman/pdf-merger-nodejs#readme",
+  "description": ""
 }
